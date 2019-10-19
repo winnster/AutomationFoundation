@@ -24,7 +24,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
         }
 
         /// <inheritdoc />
-        public Task ExecuteAsync(IProducerConsumerContext<TItem> context)
+        public Task ExecuteAsync(ProducerConsumerContext<TItem> context)
         {
             if (context == null)
             {
@@ -34,7 +34,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
             return ExecuteAsyncImpl(context);
         }
 
-        private async Task ExecuteAsyncImpl(IProducerConsumerContext<TItem> context)
+        private async Task ExecuteAsyncImpl(ProducerConsumerContext<TItem> context)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
         /// Occurs when the strategy is starting to execute.
         /// </summary>
         /// <param name="context">The contextual information about the item produced.</param>
-        protected virtual void OnStarted(IProducerConsumerContext<TItem> context)
+        protected virtual void OnStarted(ProducerConsumerContext<TItem> context)
         {
             if (context == null)
             {
@@ -75,7 +75,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
         /// Occurs when the strategy has completed execution.
         /// </summary>
         /// <param name="context">The contextual information about the item produced.</param>
-        protected virtual void OnCompleted(IProducerConsumerContext<TItem> context)
+        protected virtual void OnCompleted(ProducerConsumerContext<TItem> context)
         {
             ProcessingContext.Clear();
         }
@@ -84,7 +84,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
         /// Occurs when the strategy is exiting.
         /// </summary>
         /// <param name="context">The contextual information about the item produced.</param>
-        protected virtual void OnExit(IProducerConsumerContext<TItem> context)
+        protected virtual void OnExit(ProducerConsumerContext<TItem> context)
         {
             if (context == null)
             {
@@ -98,7 +98,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
         /// Creates the consumer which will consume the object.
         /// </summary>
         /// <param name="context">The contextual information about the item being consumed.</param>
-        protected virtual void CreateConsumer(IProducerConsumerContext<TItem> context)
+        protected virtual void CreateConsumer(ProducerConsumerContext<TItem> context)
         {
             if (context == null)
             {
@@ -118,7 +118,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
         /// Consumes the item.
         /// </summary>
         /// <param name="context">The contextual information about the item being consumed.</param>
-        protected virtual async Task ConsumeAsync(IProducerConsumerContext<TItem> context)
+        protected virtual async Task ConsumeAsync(ProducerConsumerContext<TItem> context)
         {
             context.ConsumptionContext.ConsumedOn = DateTime.Now;
 

@@ -5,7 +5,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Resolvers.TestObjects
 {
     public class StubConsumer : IConsumer<object>
     {
-        public Task ConsumeAsync(IProducerConsumerContext<object> context)
+        public Task ConsumeAsync(ProducerConsumerContext<object> context)
         {
             throw new System.NotImplementedException();
         }

@@ -99,7 +99,7 @@ namespace AutomationFoundation.Features.ProducerConsumer
             return Task.WhenAll(tasks);
         }
 
-        private void OnProducedCallback(IProducerConsumerContext<TItem> context)
+        private void OnProducedCallback(ProducerConsumerContext<TItem> context)
         {
             context.Processor = this;
 

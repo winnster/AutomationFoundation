@@ -8,14 +8,14 @@ namespace AutomationFoundation.Runtime
     /// <summary>
     /// Provides contextual information of work being processed by the runtime.
     /// </summary>
-    public abstract class ProcessingContext : IProcessingContext
+    public abstract class ProcessingContext : IDisposable
     {
-        private static readonly AsyncLocal<IProcessingContext> Local = new AsyncLocal<IProcessingContext>();
+        private static readonly AsyncLocal<ProcessingContext> Local = new AsyncLocal<ProcessingContext>();
 
         /// <summary>
         /// Gets the current processing context.
         /// </summary>
-        public static IProcessingContext Current
+        public static ProcessingContext Current
         {
             get
             {
@@ -41,7 +41,7 @@ namespace AutomationFoundation.Runtime
         /// Sets the current processing context.
         /// </summary>
         /// <param name="context">The context which is being processed.</param>
-        public static void SetCurrent(IProcessingContext context)
+        public static void SetCurrent(ProcessingContext context)
         {
             if (context == null)
             {
@@ -54,16 +54,29 @@ namespace AutomationFoundation.Runtime
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the identifier of the item being processed.
+        /// </summary>
         public Guid Id { get; }
 
-        /// <inheritdoc />
-        public IServiceScope LifetimeScope { get; }
+        /// <summary>
+        /// Gets the services scoped to the lifetime of the item being processed.
+        /// </summary>
+        public IServiceProvider LifetimeServices => LifetimeScope?.ServiceProvider;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the lifetime scope.
+        /// </summary>
+        protected IServiceScope LifetimeScope { get; }
+
+        /// <summary>
+        /// Gets or sets the cancellation token to monitor for cancellation requests.
+        /// </summary>
         public CancellationToken CancellationToken { get; set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets or sets the processor which is processing the data.
+        /// </summary>
         public IProcessor Processor { get; set; }
 
         /// <summary>

@@ -52,7 +52,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Engines
         [Timeout(10000)]
         public async Task RunsTheExecutionStrategy()
         {
-            executionStrategy.Setup(o => o.ExecuteAsync(It.IsAny<Action<IProducerConsumerContext<object>>>(), It.IsAny<CancellationToken>()))
+            executionStrategy.Setup(o => o.ExecuteAsync(It.IsAny<Action<ProducerConsumerContext<object>>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             using var cancellationSource = new CancellationSource();
@@ -68,7 +68,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Engines
 
             await target.WaitForCompletionAsync();
 
-            executionStrategy.Verify(o => o.ExecuteAsync(It.IsAny<Action<IProducerConsumerContext<object>>>(), 
+            executionStrategy.Verify(o => o.ExecuteAsync(It.IsAny<Action<ProducerConsumerContext<object>>>(), 
                 It.IsAny<CancellationToken>()), Times.AtLeastOnce);
         }
 
@@ -76,7 +76,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Engines
         [Timeout(10000)]
         public async Task RunsTheErrorHandlerWhenAnErrorHappensInStrategy()
         {
-            executionStrategy.Setup(o => o.ExecuteAsync(It.IsAny<Action<IProducerConsumerContext<object>>>(), It.IsAny<CancellationToken>()))
+            executionStrategy.Setup(o => o.ExecuteAsync(It.IsAny<Action<ProducerConsumerContext<object>>>(), It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new Exception("An exception occurred"));
 
             using var cancellationSource = new CancellationSource();
@@ -99,7 +99,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Engines
         [Timeout(10000)]
         public async Task RunsTheExecutionStrategyRepeatedly()
         {
-            executionStrategy.Setup(o => o.ExecuteAsync(It.IsAny<Action<IProducerConsumerContext<object>>>(), It.IsAny<CancellationToken>()))
+            executionStrategy.Setup(o => o.ExecuteAsync(It.IsAny<Action<ProducerConsumerContext<object>>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
             using var cancellationSource = new CancellationSource();
@@ -115,15 +115,15 @@ namespace AutomationFoundation.Features.ProducerConsumer.Engines
 
             await target.WaitForCompletionAsync();
 
-            executionStrategy.Verify(o => o.ExecuteAsync(It.IsAny<Action<IProducerConsumerContext<object>>>(),
+            executionStrategy.Verify(o => o.ExecuteAsync(It.IsAny<Action<ProducerConsumerContext<object>>>(),
                 It.IsAny<CancellationToken>()), Times.AtLeastOnce);
         }
 
         [Test]
         public async Task DoesNotCauseFatalExceptionWhenCancelWhileDelayed()
         {
-            executionStrategy.Setup(o => o.ExecuteAsync(It.IsAny<Action<IProducerConsumerContext<object>>>(), It.IsAny<CancellationToken>()))
-                .Returns<Action<IProducerConsumerContext<object>>, CancellationToken>((context, cancellationToken) =>
+            executionStrategy.Setup(o => o.ExecuteAsync(It.IsAny<Action<ProducerConsumerContext<object>>>(), It.IsAny<CancellationToken>()))
+                .Returns<Action<ProducerConsumerContext<object>>, CancellationToken>((context, cancellationToken) =>
                 {
                     Task.Delay(1000, cancellationToken).GetAwaiter().GetResult();
 

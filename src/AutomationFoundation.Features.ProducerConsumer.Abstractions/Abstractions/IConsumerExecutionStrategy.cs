@@ -12,6 +12,6 @@ namespace AutomationFoundation.Features.ProducerConsumer.Abstractions
         /// Executes the strategy.
         /// </summary>
         /// <param name="context">The contextual information about the item produced.</param>
-        Task ExecuteAsync(IProducerConsumerContext<TItem> context);
+        Task ExecuteAsync(ProducerConsumerContext<TItem> context);
     }
 }

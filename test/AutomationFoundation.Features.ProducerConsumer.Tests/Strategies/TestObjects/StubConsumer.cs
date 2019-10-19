@@ -5,7 +5,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies.TestObjects
 {
     public class StubConsumer<TItem> : IConsumer<TItem>
     {
-        public Task ConsumeAsync(IProducerConsumerContext<TItem> context)
+        public Task ConsumeAsync(ProducerConsumerContext<TItem> context)
         {
             return Task.CompletedTask;
         }

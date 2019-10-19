@@ -1,5 +1,4 @@
 ﻿using System;
-using AutomationFoundation.Features.ProducerConsumer.Abstractions;
 using AutomationFoundation.Features.ProducerConsumer.Resolvers.TestObjects;
 using Moq;
 using NUnit.Framework;
@@ -26,7 +25,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Resolvers
         public void ReturnsTheResultFromTheCallback()
         {
             var target = new CallbackProducerResolver<object>(_ => new StubProducer());
-            var result = target.Resolve(new Mock<IProducerConsumerContext<object>>().Object);
+            var result = target.Resolve(new Mock<ProducerConsumerContext<object>>().Object);
 
             Assert.IsInstanceOf<StubProducer>(result);
         }
@@ -35,7 +34,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Resolvers
         public void DoesNotThrowAnErrorWhenTheResultIsNull()
         {
             var target = new CallbackProducerResolver<object>(_ => null);
-            var result = target.Resolve(new Mock<IProducerConsumerContext<object>>().Object);
+            var result = target.Resolve(new Mock<ProducerConsumerContext<object>>().Object);
 
             Assert.IsNull(result);
         }

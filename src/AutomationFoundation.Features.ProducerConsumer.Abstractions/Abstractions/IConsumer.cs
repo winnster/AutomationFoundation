@@ -13,6 +13,6 @@ namespace AutomationFoundation.Features.ProducerConsumer.Abstractions
         /// </summary>
         /// <param name="context">The contextual information for the item being consumed.</param>
         /// <returns>The task to await for the consumption to complete.</returns>
-        Task ConsumeAsync(IProducerConsumerContext<TItem> context);
+        Task ConsumeAsync(ProducerConsumerContext<TItem> context);
     }
 }

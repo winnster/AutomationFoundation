@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutomationFoundation.Features.ProducerConsumer.Abstractions;
 using AutomationFoundation.Runtime;
 using AutomationFoundation.Runtime.Abstractions.Threading.Primitives;
 
-namespace AutomationFoundation.Features.ProducerConsumer.Abstractions
+namespace AutomationFoundation.Features.ProducerConsumer
 {
     /// <summary>
     /// Provides a base implementation of a producer engine. This class must be inherited.
@@ -14,7 +15,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Abstractions
     {
         private readonly ICancellationSourceFactory cancellationSourceFactory;
 
-        private Action<IProducerConsumerContext<TItem>> onProducedCallback;
+        private Action<ProducerConsumerContext<TItem>> onProducedCallback;
         private ICancellationSource cancellationSource;
         private CancellationToken parentToken;
         private bool initialized;
@@ -40,7 +41,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Abstractions
         }
 
         /// <inheritdoc />
-        public void Initialize(Action<IProducerConsumerContext<TItem>> onProducedCallback, CancellationToken parentToken)
+        public void Initialize(Action<ProducerConsumerContext<TItem>> onProducedCallback, CancellationToken parentToken)
         {
             if (onProducedCallback == null)
             {
@@ -158,7 +159,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Abstractions
         /// <param name="cancellationToken">The cancellation token to monitor for cancellation requests.</param>
         /// <param name="parentToken">The parent cancellation token which should be attached to the produced objects.</param>
         /// <returns>The task to await.</returns>
-        protected abstract Task RunAsync(Action<IProducerConsumerContext<TItem>> onProducedCallback, CancellationToken cancellationToken, CancellationToken parentToken);
+        protected abstract Task RunAsync(Action<ProducerConsumerContext<TItem>> onProducedCallback, CancellationToken cancellationToken, CancellationToken parentToken);
 
         /// <inheritdoc />
         public Task StopAsync()

@@ -19,11 +19,16 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
         private Mock<IProducerResolver<object>> resolver;
         private Mock<IServiceScope> scope;
         private Mock<ISynchronizationLock> synchronizationLock;
+        private Mock<IServiceProvider> serviceProvider;
 
         [SetUp]
         public void Setup()
         {
+            serviceProvider = new Mock<IServiceProvider>();
+
             scope = new Mock<IServiceScope>();
+            scope.Setup(o => o.ServiceProvider).Returns(serviceProvider.Object);
+
             scopeFactory = new Mock<IServiceScopeFactory>();
             scopeFactory.Setup(o => o.CreateScope()).Returns(scope.Object);
 
@@ -114,11 +119,11 @@ namespace AutomationFoundation.Features.ProducerConsumer.Strategies
             Assert.IsFalse(called);
         }
 
-        private void AssertContext(object item, DefaultProducerExecutionStrategy<object> target, IProducerConsumerContext<object> context)
+        private void AssertContext(object item, DefaultProducerExecutionStrategy<object> target, ProducerConsumerContext<object> context)
         {
             Assert.AreEqual(item, context.Item);
             Assert.AreEqual(producer.Object, context.ProductionContext.Producer);
-            Assert.AreEqual(scope.Object, context.LifetimeScope);
+            Assert.AreEqual(serviceProvider.Object, context.LifetimeServices);
             Assert.AreEqual(target, context.ProductionContext.ExecutionStrategy);
             Assert.AreEqual(synchronizationLock.Object, context.SynchronizationLock);
         }

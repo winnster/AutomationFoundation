@@ -26,7 +26,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Resolvers
         public void ReturnsTheResultFromTheCallback()
         {
             var target = new CallbackConsumerResolver<object>(_ => new StubConsumer());
-            var result = target.Resolve(new Mock<IProducerConsumerContext<object>>().Object);
+            var result = target.Resolve(new Mock<ProducerConsumerContext<object>>().Object);
 
             Assert.IsInstanceOf<StubConsumer>(result);
         }
@@ -35,7 +35,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Resolvers
         public void DoesNotThrowAnErrorWhenTheResultIsNull()
         {
             var target = new CallbackConsumerResolver<object>(_ => null);
-            var result = target.Resolve(new Mock<IProducerConsumerContext<object>>().Object);
+            var result = target.Resolve(new Mock<ProducerConsumerContext<object>>().Object);
 
             Assert.IsNull(result);
         }

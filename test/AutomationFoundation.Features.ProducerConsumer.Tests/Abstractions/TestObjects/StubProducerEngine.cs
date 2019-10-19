@@ -12,7 +12,7 @@ namespace AutomationFoundation.Features.ProducerConsumer.Abstractions.TestObject
         {
         }
 
-        protected override Task RunAsync(Action<IProducerConsumerContext<object>> onProducedCallback, CancellationToken cancellationToken, CancellationToken parentToken)
+        protected override Task RunAsync(Action<ProducerConsumerContext<object>> onProducedCallback, CancellationToken cancellationToken, CancellationToken parentToken)
         {
             return Task.CompletedTask;
         }

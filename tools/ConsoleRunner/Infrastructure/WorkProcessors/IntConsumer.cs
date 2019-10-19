@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutomationFoundation.Features.ProducerConsumer;
 using AutomationFoundation.Features.ProducerConsumer.Abstractions;
 using ConsoleRunner.Infrastructure.IO;
 
@@ -13,7 +14,7 @@ namespace ConsoleRunner.Infrastructure.WorkProcessors
             Monitor.Start();
         }
 
-        public Task ConsumeAsync(IProducerConsumerContext<int> context)
+        public Task ConsumeAsync(ProducerConsumerContext<int> context)
         {
             Monitor.Increment();
             

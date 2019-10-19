@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <RootNamespace>AutomationFoundation.Features.ProducerConsumer</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Winnster.io</Authors>
     <VersionPrefix>0.0.0</VersionPrefix>

@@ -11,6 +11,6 @@
         /// </summary>
         /// <param name="context">The contextual information for the item being processed.</param>
         /// <returns>The consumer instance.</returns>
-        IConsumer<TItem> Resolve(IProducerConsumerContext<TItem> context);
+        IConsumer<TItem> Resolve(ProducerConsumerContext<TItem> context);
     }
 }
