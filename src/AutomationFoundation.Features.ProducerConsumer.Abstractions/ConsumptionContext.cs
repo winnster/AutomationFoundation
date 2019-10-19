@@ -15,7 +15,7 @@ namespace AutomationFoundation.Features.ProducerConsumer
         public virtual IConsumer<TItem> Consumer { get; set; }
 
         /// <summary>
-        /// Gets the consumption strategy for consuming the item.
+        /// Gets the execution strategy for consuming the item.
         /// </summary>
         public virtual IConsumerExecutionStrategy<TItem> ExecutionStrategy { get; set; }
 

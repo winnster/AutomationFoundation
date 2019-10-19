@@ -15,7 +15,7 @@ namespace AutomationFoundation.Features.ProducerConsumer
         public virtual IProducer<TItem> Producer { get; set; }
 
         /// <summary>
-        /// Gets or sets the production strategy for producing the item.
+        /// Gets or sets the execution strategy for producing the item.
         /// </summary>
         public virtual IProducerExecutionStrategy<TItem> ExecutionStrategy { get; set; }
 
