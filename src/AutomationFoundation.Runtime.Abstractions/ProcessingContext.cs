@@ -91,6 +91,13 @@ namespace AutomationFoundation.Runtime
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessingContext"/> class.
+        /// </summary>
+        protected ProcessingContext()
+        {
+        }
+
+        /// <summary>
         /// Finalizes an instance of the <see cref="ProcessingContext"/> class.
         /// </summary>
         ~ProcessingContext()

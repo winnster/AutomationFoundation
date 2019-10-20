@@ -40,5 +40,12 @@ namespace AutomationFoundation.Features.ProducerConsumer
             : base(id, serviceScope)
         {
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProducerConsumerContext{TItem}"/> class.
+        /// </summary>
+        protected ProducerConsumerContext()
+        {
+        }
     }
 }
