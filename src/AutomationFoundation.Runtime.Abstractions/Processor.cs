@@ -1,5 +1,6 @@
 ﻿using System;
 using AutomationFoundation.Runtime.Abstractions;
+using Microsoft.Extensions.Logging;
 
 namespace AutomationFoundation.Runtime
 {
@@ -22,10 +23,16 @@ namespace AutomationFoundation.Runtime
         public ProcessorState State { get; protected set; }
 
         /// <summary>
+        /// Gets the logger.
+        /// </summary>
+        protected ILogger<Processor> Logger { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Processor"/> class.
         /// </summary>
         /// <param name="name">The name of the processor.</param>
-        protected Processor(string name)
+        /// <param name="logger">The logger which will log events within the processor.</param>
+        protected Processor(string name, ILogger<Processor> logger)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -33,6 +40,7 @@ namespace AutomationFoundation.Runtime
             }
 
             Name = name;
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -58,11 +66,13 @@ namespace AutomationFoundation.Runtime
 
                 try
                 {
+                    Logger.LogDebug(new EventId(3000, "PROCESSOR_STARTING"), $"Starting the '{Name}' processor...");
                     State = ProcessorState.Starting;
                     
                     OnStart();
 
                     State = ProcessorState.Started;
+                    Logger.LogInformation(new EventId(3001, "PROCESSOR_STARTED"), $"Started the '{Name}' processor.");
                 }
                 catch (Exception)
                 {
@@ -103,11 +113,13 @@ namespace AutomationFoundation.Runtime
 
                 try
                 {
+                    Logger.LogDebug(new EventId(3002, "PROCESSOR_STOPPING"), $"Stopping the '{Name}' processor...");
                     State = ProcessorState.Stopping;
 
                     OnStop();
 
                     State = ProcessorState.Stopped;
+                    Logger.LogInformation(new EventId(3003, "PROCESSOR_STOPPED"), $"Stopped the '{Name}' processor.");
                 }
                 catch (Exception)
                 {

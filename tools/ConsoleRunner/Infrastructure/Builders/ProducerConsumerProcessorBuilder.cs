@@ -16,6 +16,7 @@ using ConsoleRunner.Infrastructure.IO;
 using ConsoleRunner.Infrastructure.WorkProcessors;
 using ConsoleRunner.Model;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ConsoleRunner.Infrastructure.Builders
 {
@@ -41,7 +42,8 @@ namespace ConsoleRunner.Infrastructure.Builders
                 config.Name,
                 new CancellationSourceFactory(),
                 new[] { producerEngine1, producerEngine2 },
-                consumerEngine);
+                consumerEngine,
+                runtimeBuilder.ApplicationServices.GetRequiredService<ILogger<ProducerConsumerProcessor<int>>>());
         }
 
         private IConsumerEngine<int> BuildConsumerEngine()

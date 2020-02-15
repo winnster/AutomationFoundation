@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutomationFoundation.Features.ProducerConsumer.Abstractions;
 using AutomationFoundation.Runtime;
 using AutomationFoundation.Runtime.Abstractions.Threading.Primitives;
+using Microsoft.Extensions.Logging;
 
 namespace AutomationFoundation.Features.ProducerConsumer
 {
@@ -27,8 +28,9 @@ namespace AutomationFoundation.Features.ProducerConsumer
         /// <param name="cancellationSourceFactory">The factory for creating cancellation sources.</param>
         /// <param name="producerEngines">The engines which will produce objects to process.</param>
         /// <param name="consumerEngine">The consumer engine which will consume objects which were produced.</param>
-        public ProducerConsumerProcessor(string name, ICancellationSourceFactory cancellationSourceFactory, IEnumerable<IProducerEngine<TItem>> producerEngines, IConsumerEngine<TItem> consumerEngine)
-            : base(name)
+        /// <param name="logger">The logger which will log events within the processor.</param>
+        public ProducerConsumerProcessor(string name, ICancellationSourceFactory cancellationSourceFactory, IEnumerable<IProducerEngine<TItem>> producerEngines, IConsumerEngine<TItem> consumerEngine, ILogger<ProducerConsumerProcessor<TItem>> logger)
+            : base(name, logger)
         {
             this.cancellationSourceFactory = cancellationSourceFactory ?? throw new ArgumentNullException(nameof(cancellationSourceFactory));
             this.producerEngines = producerEngines ?? throw new ArgumentNullException(nameof(producerEngines));

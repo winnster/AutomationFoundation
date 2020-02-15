@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 
 namespace AutomationFoundation.Runtime.TestObjects
 {
@@ -8,13 +9,13 @@ namespace AutomationFoundation.Runtime.TestObjects
         private Action onStopCallback;
         private Action onDispose;
 
-        public StubProcessor()
-            : this(Guid.NewGuid().ToString())
+        public StubProcessor(ILogger<StubProcessor> logger)
+            : this(Guid.NewGuid().ToString(), logger)
         {
         }
 
-        public StubProcessor(string name)
-            : base(name)
+        public StubProcessor(string name, ILogger<StubProcessor> logger)
+            : base(name, logger)
         {            
         }
 
