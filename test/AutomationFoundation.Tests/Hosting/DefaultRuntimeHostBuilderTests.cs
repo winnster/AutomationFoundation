@@ -2,6 +2,7 @@
 using AutomationFoundation.Runtime.Abstractions.Builders;
 using AutomationFoundation.Runtime.Builders;
 using AutomationFoundation.TestObjects;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 
@@ -80,7 +81,11 @@ namespace AutomationFoundation.Hosting
             var called = false;
 
             var target = new DefaultRuntimeHostBuilder();
-            target.ConfigureServices(services => { called = true; });
+            target.ConfigureServices(services =>
+            {
+                services.AddLogging();
+                called = true;
+            });
             target.UseStartup(new StubStartup());
 
             Assert.IsNotNull(target.Build());
@@ -93,6 +98,7 @@ namespace AutomationFoundation.Hosting
             var called = false;
 
             var target = new DefaultRuntimeHostBuilder();
+            target.ConfigureServices(services => services.AddLogging());
             target.UseStartup(new StubStartup(_ => called = true));
 
             Assert.IsNotNull(target.Build());

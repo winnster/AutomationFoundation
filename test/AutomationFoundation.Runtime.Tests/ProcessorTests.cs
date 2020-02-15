@@ -2,6 +2,8 @@
 using AutomationFoundation.Runtime.TestObjects;
 using NUnit.Framework;
 
+#pragma warning disable S3626 // False positive
+
 namespace AutomationFoundation.Runtime
 {
     [TestFixture]

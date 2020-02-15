@@ -6,6 +6,8 @@ using AutomationFoundation.Runtime.Threading.Internal;
 using Moq;
 using NUnit.Framework;
 
+#pragma warning disable S3626 // False positive
+
 namespace AutomationFoundation.Runtime.Threading
 {
     [TestFixture]

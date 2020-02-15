@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using AutomationFoundation.Runtime;
 using AutomationFoundation.Runtime.Abstractions;
 using AutomationFoundation.Runtime.Abstractions.Builders;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AutomationFoundation.Hosting
 {
@@ -56,7 +58,7 @@ namespace AutomationFoundation.Hosting
 
             try
             {
-                runtime = new AutomationRuntime();
+                runtime = new AutomationRuntime(ApplicationServices.GetRequiredService<ILogger<AutomationRuntime>>());
 
                 foreach (var processorBuilder in processorBuilders)
                 {

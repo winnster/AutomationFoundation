@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using ManualResetEventSlim = System.Threading.ManualResetEventSlim;
 
+#pragma warning disable S3626 // False positive
+
 namespace AutomationFoundation.Runtime.Threading.Primitives
 {
     [TestFixture]

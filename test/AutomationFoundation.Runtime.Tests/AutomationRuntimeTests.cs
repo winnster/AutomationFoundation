@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutomationFoundation.Runtime.Abstractions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -9,18 +10,26 @@ namespace AutomationFoundation.Runtime
     [TestFixture]
     public class AutomationRuntimeTests
     {
+        private Mock<ILogger<AutomationRuntime>> logger;
         private Mock<IProcessor> processor;
 
         [SetUp]
         public void Setup()
         {
             processor = new Mock<IProcessor>();
+            logger = new Mock<ILogger<AutomationRuntime>>();
+        }
+
+        [Test]
+        public void ThrowsAnExceptionWhenLoggerIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _ = new AutomationRuntime(null));
         }
 
         [Test]
         public void ReturnsTheProcessorsThatHaveBeenAdded()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             target.Add(processor.Object);
 
             Assert.True(target.Processors.Contains(processor.Object));
@@ -31,7 +40,7 @@ namespace AutomationFoundation.Runtime
         {
             processor.Setup(o => o.State).Returns(ProcessorState.Started);
 
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             target.Add(processor.Object);
 
             Assert.True(target.IsActive);
@@ -42,7 +51,7 @@ namespace AutomationFoundation.Runtime
         {
             processor.Setup(o => o.State).Returns(ProcessorState.Busy);
 
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             target.Add(processor.Object);
 
             Assert.True(target.IsActive);
@@ -51,7 +60,7 @@ namespace AutomationFoundation.Runtime
         [Test]
         public void ReturnsTrueWhenTheProcessorHasBeenAdded()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             var result = target.Add(processor.Object);
 
             Assert.True(result);
@@ -60,7 +69,7 @@ namespace AutomationFoundation.Runtime
         [Test]
         public void ReturnsFalseWhenTheProcessorHasAlreadyBeenAdded()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             target.Add(processor.Object);
 
             var result = target.Add(processor.Object);
@@ -70,7 +79,7 @@ namespace AutomationFoundation.Runtime
         [Test]
         public void ReturnsTrueWhenTheProcessorHasBeenRemoved()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             target.Add(processor.Object);
 
             var result = target.Remove(processor.Object);
@@ -80,7 +89,7 @@ namespace AutomationFoundation.Runtime
         [Test]
         public void ReturnsFalseWhenTheProcessorHasNotBeenAdded()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             var result = target.Remove(processor.Object);
 
             Assert.False(result);
@@ -89,21 +98,21 @@ namespace AutomationFoundation.Runtime
         [Test]
         public void ThrowsAnExceptionIfTheProcessorIsNullWhenAdded()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             Assert.Throws<ArgumentNullException>(() => target.Add(null));
         }
 
         [Test]
         public void ThrowsAnExceptionIfTheProcessorIsNullWhenRemoved()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             Assert.Throws<ArgumentNullException>(() => target.Remove(null));
         }
 
         [Test]
         public void StartsTheProcessor()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             target.Add(processor.Object);
 
             target.Start();
@@ -114,7 +123,7 @@ namespace AutomationFoundation.Runtime
         [Test]
         public void StopsTheProcessor()
         {
-            using var target = new AutomationRuntime();
+            using var target = new AutomationRuntime(logger.Object);
             target.Add(processor.Object);
 
             target.Stop();
@@ -125,7 +134,7 @@ namespace AutomationFoundation.Runtime
         [Test]
         public void ThrowAnExceptionWhenStartedAfterDisposed()
         {
-            var target = new AutomationRuntime();
+            var target = new AutomationRuntime(logger.Object);
             target.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => target.Start());
@@ -134,7 +143,7 @@ namespace AutomationFoundation.Runtime
         [Test]
         public void ThrowAnExceptionWhenStoppedAfterDisposed()
         {
-            var target = new AutomationRuntime();
+            var target = new AutomationRuntime(logger.Object);
             target.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => target.Stop());

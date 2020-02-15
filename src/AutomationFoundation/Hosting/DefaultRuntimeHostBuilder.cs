@@ -5,6 +5,7 @@ using AutomationFoundation.Hosting.Abstractions.Builders;
 using AutomationFoundation.Runtime.Abstractions.Builders;
 using AutomationFoundation.Runtime.Builders;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AutomationFoundation.Hosting
 {
@@ -107,7 +108,8 @@ namespace AutomationFoundation.Hosting
                 return new RuntimeHost(
                     runtime,
                     hostingEnvironment,
-                    applicationServices);
+                    applicationServices,
+                    applicationServices.GetService<ILogger<RuntimeHost>>());
             }
             finally
             {
